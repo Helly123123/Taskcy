@@ -1,24 +1,25 @@
 <template>
   <div class="screen-container">
-    <div class="image-section">
+    <div class="image-section animate-fade-down">
       <img class="hero-image" src="/Artboard.png" alt="Artboard illustration" />
     </div>
 
-    <div class="content-card">
+    <div class="content-card animate-slide-up">
       <div class="drag-handle"></div>
-      <h1 class="brand-title">Taskcy</h1>
 
-      <h2 class="main-heading">
+      <h1 class="brand-title stagger-1">Taskcy</h1>
+
+      <h2 class="main-heading stagger-2">
         Building Better <br />
         Workplaces
       </h2>
 
-      <p class="description">
+      <p class="description stagger-3">
         Create a unique emotional story that describes <br />
         better than words
       </p>
 
-      <button @click="pushTo('startScreen')" class="get-started-btn">
+      <button @click="pushTo('startScreen')" class="get-started-btn stagger-4">
         Get Started
       </button>
     </div>
@@ -32,29 +33,28 @@ const router = useRouter();
 
 const pushTo = (pageName) => {
   router.push({
-    name: pageName, // имя роута из вашего index.js
+    name: pageName,
     query: { step: "2" },
   });
 };
 </script>
 
 <style scoped>
-/* Основной контейнер на весь экран */
 .screen-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #725fff; /* Цвет фона за картинкой */
+  background-color: #725fff;
   font-family: "PT Sans", sans-serif;
+  overflow: hidden; /* Чтобы элементы не создавали скролл при выезде */
 }
 
-/* Секция с картинкой */
 .image-section {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 40px; /* Запас, чтобы картинка не уходила слишком глубоко под блок */
+  z-index: 1;
 }
 
 .hero-image {
@@ -64,7 +64,6 @@ const pushTo = (pageName) => {
   object-fit: contain;
 }
 
-/* Белая карточка */
 .content-card {
   background: linear-gradient(180deg, #ffffff 0%, #f8f6ff 100%);
   border-top-left-radius: 40px;
@@ -75,9 +74,9 @@ const pushTo = (pageName) => {
   align-items: center;
   text-align: center;
   box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.05);
+  z-index: 2;
 }
 
-/* Маленькая полоска (индикатор пагинации или слайдера) */
 .drag-handle {
   width: 40px;
   height: 4px;
@@ -120,10 +119,76 @@ const pushTo = (pageName) => {
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0px 10px 20px rgba(117, 110, 243, 0.3);
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .get-started-btn:active {
-  transform: scale(0.98);
+  transform: scale(0.95);
+}
+
+/* --- КЛЮЧЕВЫЕ АНИМАЦИИ --- */
+
+/* 1. Появление картинки сверху */
+.animate-fade-down {
+  animation: fadeDown 0.8s ease-out forwards;
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Выезд карточки снизу */
+.animate-slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* 3. Общий класс для текстовых элементов (по умолчанию скрыты) */
+.stagger-1,
+.stagger-2,
+.stagger-3,
+.stagger-4 {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Настройка задержек (Delay) для каскада */
+.stagger-1 {
+  animation-delay: 0.5s;
+}
+.stagger-2 {
+  animation-delay: 0.6s;
+}
+.stagger-3 {
+  animation-delay: 0.7s;
+}
+.stagger-4 {
+  animation-delay: 0.8s;
 }
 </style>

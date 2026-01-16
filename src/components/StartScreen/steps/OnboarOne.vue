@@ -8,25 +8,27 @@
       }"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
-      class="main-swiper"
+      class="main-swiper animate-fade-in"
     >
       <swiper-slide v-for="(slide, index) in slides" :key="index">
         <div class="slide-inner">
-          <StepOne v-if="index + 1 === 1" />
-          <StepTwo v-else-if="index + 1 === 2" />
-          <StepThree v-else />
+          <div class="image-box animate-float">
+            <img :src="slide.image" alt="" class="slide-img" />
+          </div>
+
           <div class="text-content">
-            <span class="category-tag">{{ slide.category }}</span>
-            <h1 class="main-title" v-html="slide.title"></h1>
+            <span class="category-tag animate-up-1">{{ slide.category }}</span>
+            <h1 class="main-title animate-up-2" v-html="slide.title"></h1>
           </div>
         </div>
       </swiper-slide>
     </swiper>
 
-    <div class="bottom-nav">
+    <div class="bottom-nav animate-slide-up">
       <button class="skip-link" @click="skip">Skip</button>
 
       <div class="custom-pagination"></div>
+
       <button class="action-button" @click="nextSlide">
         <span class="arrow">→</span>
       </button>
@@ -38,11 +40,7 @@
 import { ref } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
-import StepOne from "../images/StepOne.vue";
-import StepTwo from "../images/StepTwo.vue";
-import StepThree from "../images/StepThree.vue";
 
-// Обязательно импортируем базовые стили
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -50,9 +48,6 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
-    StepOne,
-    StepTwo,
-    StepThree,
   },
   setup() {
     const swiperRef = ref(null);
@@ -62,20 +57,19 @@ export default {
         category: "Task Management",
         title:
           'Let\'s create a <span class="purple">space</span> for your workflows.',
-        image: "/step_one.svg",
-        circle: "/Circle.svg",
+        image: "startScreen/steps/step_one.png",
       },
       {
         category: "Task Management",
         title:
           'Work more <span class="purple">Structured</span> and Organized 👌',
-        image: "/step_one.svg",
-        circle: "/Circle.svg",
+        image: "startScreen/steps/step_two.png",
       },
       {
         category: "Task Management",
         title:
           'Manage your <span class="purple">Tasks</span> quickly for Results ✌️',
+        image: "startScreen/steps/step_three.png",
       },
     ];
 
@@ -110,7 +104,7 @@ export default {
 </script>
 
 <style scoped>
-/* 1. Основной контейнер */
+/* 1. Основа */
 .onboarding-wrapper {
   position: fixed;
   top: 0;
@@ -121,8 +115,6 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* Переменная для управления отступом от краев */
-  --side-gap: 20px;
 }
 
 .main-swiper {
@@ -131,19 +123,34 @@ export default {
 }
 
 .slide-inner {
-  padding: 40px 0;
+  padding-top: 60px;
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-/* 2. Область с изображениями */
+/* 2. Картинки (Очищено и упрощено) */
+.image-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 40px;
+}
+
+.slide-img {
+  max-width: 100%;
+  max-height: 40vh;
+  object-fit: contain;
+}
 
 /* 3. Текстовый блок */
 .text-content {
+  width: 100%;
   padding: 0 30px;
-  margin-bottom: 120px;
-  z-index: 5;
+  margin-bottom: 140px; /* Оставляем место под кнопку-уголок */
 }
 
 .category-tag {
@@ -151,7 +158,7 @@ export default {
   font-weight: 500;
   font-size: 16px;
   color: #756ef3;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: block;
 }
 
@@ -168,7 +175,7 @@ export default {
   font-weight: 600;
 }
 
-/* 4. Навигация (кнопки и точки) */
+/* 4. Навигация */
 .bottom-nav {
   position: absolute;
   bottom: 0;
@@ -179,23 +186,27 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
-  z-index: 10;
   background: white;
+  z-index: 10;
 }
 
 .skip-link {
-  background-color: transparent;
+  border: none;
+  background: transparent;
   font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
-  text-align: center;
+  font-size: 16px;
   color: #002055;
-  margin-right: 10px;
+  cursor: pointer;
+  opacity: 0.6;
 }
 
+/* Кастомная пагинация Swiper */
 .custom-pagination {
   display: flex;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 :deep(.swiper-pagination-bullet) {
@@ -204,7 +215,7 @@ export default {
   background: #cbd5e1;
   opacity: 1;
   border-radius: 4px;
-  transition: width 0.3s;
+  transition: all 0.3s ease;
 }
 
 :deep(.swiper-pagination-bullet-active) {
@@ -214,34 +225,98 @@ export default {
 
 /* Кнопка в углу */
 .action-button {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   background: #756ef3;
   border: none;
-  border-top-left-radius: 45px;
+  border-top-left-radius: 50px;
   position: absolute;
   right: 0;
   bottom: 0;
   cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.action-button:active {
+  transform: scale(0.9);
 }
 
 .arrow {
   color: white;
-  font-size: 26px;
-  margin-left: 10px;
-  margin-top: 10px;
+  font-size: 30px;
+  transform: translate(5px, 5px); /* Смещение к центру закругления */
 }
 
-/* Адаптивность для узких экранов */
-@media (max-width: 375px) {
-  .message-image {
-    width: 140px; /* Уменьшаем еще сильнее на маленьких iPhone */
+/* --- АНИМАЦИИ --- */
+
+/* Плавное проявление всей страницы */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Выезд нижней панели */
+.animate-slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Легкое покачивание картинки (эффект жизни) */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Каскадное появление текста */
+.animate-up-1,
+.animate-up-2 {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-up-1 {
+  animation-delay: 0.4s;
+}
+.animate-up-2 {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .main-title {
-    font-size: 28px;
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
 </style>
