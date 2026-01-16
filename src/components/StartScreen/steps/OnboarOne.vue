@@ -25,12 +25,12 @@
     </swiper>
 
     <div class="bottom-nav animate-slide-up">
-      <button class="skip-link" @click="skip">Skip</button>
-
+      <button v-if="!isLastSlide" class="skip-link" @click="skip">Skip</button>
+      <div v-else style="width: 40px"></div>
       <div class="custom-pagination"></div>
 
       <button class="action-button" @click="nextSlide">
-        <span class="arrow">→</span>
+        <span class="arrow">{{ isLastSlide ? "✓" : "→" }}</span>
       </button>
     </div>
   </div>
@@ -38,6 +38,7 @@
 
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router"; // Импортируем роутер
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 
@@ -50,7 +51,9 @@ export default {
     SwiperSlide,
   },
   setup() {
+    const router = useRouter();
     const swiperRef = ref(null);
+    const isLastSlide = ref(false);
 
     const slides = [
       {
@@ -78,18 +81,24 @@ export default {
     };
 
     const onSlideChange = () => {
-      console.log("Slide changed");
+      // Обновляем состояние, если дошли до конца
+      isLastSlide.value = swiperRef.value.isEnd;
     };
 
     const nextSlide = () => {
       if (swiperRef.value.isEnd) {
-        alert("Welcome to App!");
+        // Если это последний слайд — переходим на регистрацию
+        router.push("/auth/sign-up");
       } else {
+        // Иначе листаем дальше
         swiperRef.value.slideNext();
       }
     };
 
-    const skip = () => console.log("Skipped");
+    const skip = () => {
+      // Кнопка Skip обычно тоже ведет на финальную страницу
+      router.push("/auth/sign-up");
+    };
 
     return {
       slides,
@@ -98,13 +107,14 @@ export default {
       onSlideChange,
       nextSlide,
       skip,
+      isLastSlide,
     };
   },
 };
 </script>
 
 <style scoped>
-/* 1. Основа */
+/* Стили остаются без изменений, как в вашем исходном коде */
 .onboarding-wrapper {
   position: fixed;
   top: 0;
@@ -130,7 +140,6 @@ export default {
   align-items: center;
 }
 
-/* 2. Картинки (Очищено и упрощено) */
 .image-box {
   flex: 1;
   display: flex;
@@ -146,11 +155,10 @@ export default {
   object-fit: contain;
 }
 
-/* 3. Текстовый блок */
 .text-content {
   width: 100%;
   padding: 0 30px;
-  margin-bottom: 140px; /* Оставляем место под кнопку-уголок */
+  margin-bottom: 140px;
 }
 
 .category-tag {
@@ -175,7 +183,6 @@ export default {
   font-weight: 600;
 }
 
-/* 4. Навигация */
 .bottom-nav {
   position: absolute;
   bottom: 0;
@@ -200,7 +207,6 @@ export default {
   opacity: 0.6;
 }
 
-/* Кастомная пагинация Swiper */
 .custom-pagination {
   display: flex;
   gap: 8px;
@@ -223,7 +229,6 @@ export default {
   background: #756ef3;
 }
 
-/* Кнопка в углу */
 .action-button {
   width: 100px;
   height: 100px;
@@ -247,27 +252,21 @@ export default {
 .arrow {
   color: white;
   font-size: 30px;
-  transform: translate(5px, 5px); /* Смещение к центру закругления */
+  transform: translate(5px, 5px);
 }
 
-/* --- АНИМАЦИИ --- */
-
-/* Плавное проявление всей страницы */
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out;
 }
 
-/* Выезд нижней панели */
 .animate-slide-up {
   animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Легкое покачивание картинки (эффект жизни) */
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
 
-/* Каскадное появление текста */
 .animate-up-1,
 .animate-up-2 {
   opacity: 0;

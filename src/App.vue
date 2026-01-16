@@ -10,15 +10,14 @@
 .mobile-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh; /* Оставляем как базу */
+  /* align-items: center;  <-- УБЕРИ ЭТО, оно мешает растягиванию */
+  min-height: 100vh;
   width: 100%;
-  max-width: 768px;
+  max-width: 768px; /* Ограничение для планшетов */
   margin: 0 auto;
-  /* padding: 20px; */ /* Если нужен центр, лучше убрать или обнулить */
   box-sizing: border-box;
-  overflow: hidden; /* Гарантирует отсутствие скролла */
+  overflow-x: hidden;
+  padding: 40px;
 }
 
 .desktop-overlay {
