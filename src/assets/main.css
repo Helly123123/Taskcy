@@ -1,35 +1,62 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+/* 1. Полный сброс отступов и box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Размеры элементов включают padding и border */
+  margin: 0;
+  padding: 0;
 }
 
-a,
-.green {
+/* 2. Настройки для html и body */
+html,
+body {
+  height: 100%; /* Растягиваем на всю высоту экрана */
+  width: 100%;
+  font-size: 100%; /* Стандартный размер шрифта */
+  line-height: 1;
+  padding: 0 !important;
+  margin: 0 !important;
+  /* 3. Запрет горизонтального прокрута */
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  font-weight: normal; /* Опционально: убирает стандартную жирность */
+  font-size: inherit; /* Опционально: делает размер шрифта как у родителя */
+}
+
+/* 4. Сброс для списков (часто мешают точки и отступы) */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 5. Базовые настройки для изображений */
+img {
+  max-width: 100%; /* Чтобы картинки не вылезали за края */
+  display: block;
+}
+
+/* 6. Убираем стандартные рамки и синий цвет ссылок (по желанию) */
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+  color: inherit;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+button,
+input,
+textarea {
+  font-family: inherit; /* Чтобы шрифты не менялись в формах */
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+button {
+  outline: none;
+  border: none;
 }
