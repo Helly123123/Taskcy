@@ -19,6 +19,7 @@ body {
   margin: 0 !important;
   /* 3. Запрет горизонтального прокрута */
   overflow-x: hidden;
+  background-color: white !important;
 }
 
 h1,
