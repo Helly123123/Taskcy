@@ -2,26 +2,25 @@
   <div class="task-list">
     <h3 class="monthly-title">Monthly</h3>
 
-    <div
-      v-for="item in tasks"
-      :key="item.type"
-      class="card"
-      :class="{ active: item.type === 'completed' }"
-    >
+    <div v-for="item in tasks" :key="item.type" class="card">
       <div @click="pushTo('Tasks', projectId, item.type)" class="card-info">
         <h4>{{ item.title }}</h4>
         <p>{{ item.count }} Task now</p>
       </div>
       <svg
-        width="16"
-        height="4"
-        viewBox="0 0 16 4"
+        width="8"
+        height="14"
+        viewBox="0 0 8 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="2" cy="2" r="2" fill="#848A94" />
-        <circle cx="8" cy="2" r="2" fill="#848A94" />
-        <circle cx="14" cy="2" r="2" fill="#848A94" />
+        <path
+          d="M0.75 12.4167L6.58333 6.58333L0.75 0.75"
+          stroke="#002055"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </div>
   </div>

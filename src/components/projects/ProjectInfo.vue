@@ -49,11 +49,11 @@ onMounted(getInfoById);
 </script>
 
 <style scoped>
-/* Главный контейнер на весь экран (или высоту родителя) */
 .task-status-container {
   min-height: 100vh;
   width: 100%;
   position: relative;
+  margin-bottom: 60px;
 }
 
 /* Центрирование лоадера строго посередине */

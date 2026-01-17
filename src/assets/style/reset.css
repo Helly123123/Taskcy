@@ -2,15 +2,14 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* Размеры элементов включают padding и border */
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* 2. Настройки для html и body */
 html,
 body {
-  height: 100%; /* Растягиваем на всю высоту экрана */
+  height: 100%;
   width: 100%;
   font-size: 100%; /* Стандартный размер шрифта */
   font-family: "PT Sans", sans-serif;

@@ -51,9 +51,9 @@ export const useProjectsStore = defineStore("accountStore", {
         ...project,
         info: [
           {
-            type: "not_started",
-            title: "Not Started",
-            count: count("not_started"),
+            type: "completed",
+            title: "Completed",
+            count: count("сompleted"),
           },
           {
             type: "in_progress",
@@ -61,9 +61,9 @@ export const useProjectsStore = defineStore("accountStore", {
             count: count("in_progress"),
           },
           {
-            type: "completed",
-            title: "Completed",
-            count: count("сompleted"),
+            type: "not_started",
+            title: "Not Started",
+            count: count("not_started"),
           },
         ],
       };

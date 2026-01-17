@@ -67,7 +67,7 @@ const pushTo = (pageName, id) => {
   flex: 1; /* Занимает всё оставшееся пространство */
   overflow-y: auto; /* Включает внутренний скролл */
   padding-top: 12px;
-  padding-bottom: 24px;
+  padding-bottom: 120px;
 
   /* Скрытие полосы прокрутки для чистого вида */
   scrollbar-width: none; /* Firefox */

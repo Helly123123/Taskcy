@@ -166,6 +166,7 @@ const addProject = async () => {
   position: relative;
   background-color: #ffffff;
   overflow-x: hidden;
+  margin-bottom: 50px;
 }
 
 .content-wrapper {

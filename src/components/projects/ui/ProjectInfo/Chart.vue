@@ -35,7 +35,7 @@
     </div>
 
     <div class="legend">
-      <div v-for="item in tasks" :key="item.type" class="legend-item">
+      <div v-for="item in info" :key="item.type" class="legend-item">
         <span class="dot" :style="{ backgroundColor: item.color }"></span>
         <span class="legend-text"> {{ item.title }}</span>
       </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { computed, toRefs } from "vue";
+import { computed, reactive, toRefs } from "vue";
 
 const props = defineProps({
   tasks: {
@@ -52,6 +52,12 @@ const props = defineProps({
     default: () => [], // Хорошая практика: пустой массив по умолчанию
   },
 });
+
+const info = reactive([
+  { type: "сompleted", color: "#A8C993", title: "Completed" },
+  { type: "in_progress", color: "#FFB054", title: "In Progress" },
+  { type: "not_started", color: "#6C63FF", title: "Not Started" },
+]);
 
 // tasks теперь — это Ref
 const { tasks } = toRefs(props);
