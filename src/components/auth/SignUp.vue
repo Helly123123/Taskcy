@@ -1,6 +1,6 @@
 <template>
   <div class="register-container animate-fade-in">
-    <h2 class="page-title slide-down">Sign Up</h2>
+    <PageHeader />
 
     <div class="content-wrapper">
       <h3 class="welcome-title cascade-1">Create Account</h3>
@@ -48,6 +48,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import PageHeader from "../medical/PageHeader.vue";
 const router = useRouter();
 
 const pushTo = (page) => {
@@ -63,24 +64,6 @@ const pushTo = (page) => {
   box-sizing: border-box;
   position: relative;
   min-height: 100vh;
-}
-
-.page-title {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 100%;
-  color: #002055;
-  text-align: center;
-  z-index: 0;
-}
-
-.content-wrapper {
-  margin-top: 100px;
-  padding: 0 24px;
 }
 
 .welcome-title {
@@ -101,26 +84,6 @@ const pushTo = (page) => {
 
 .input-group {
   margin-bottom: 20px;
-}
-
-.custom-input {
-  width: 100%;
-  height: 64px;
-  border-radius: 18px;
-  border: 1px solid #f1f1f1;
-  padding: 0 24px;
-  font-size: 16px;
-  color: #002055;
-  background-color: #fcfcfc;
-  box-sizing: border-box;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.custom-input:focus {
-  border-color: #756ef3;
-  background-color: #fff;
-  box-shadow: 0 0 0 1px #756ef3;
 }
 
 .submit-btn {

@@ -1,10 +1,13 @@
 <template>
   <main class="mobile-container">
     <RouterView />
+    <Nav />
   </main>
 </template>
 
-<script setup></script>
+<script setup>
+import Nav from "./components/navigate/Nav.vue";
+</script>
 
 <style scoped>
 .mobile-container {
@@ -17,7 +20,8 @@
   margin: 0 auto;
   box-sizing: border-box;
   overflow-x: hidden;
-  padding: 40px;
+  padding: 0px 40px 0px 40px;
+  box-sizing: border-box;
 }
 
 .desktop-overlay {

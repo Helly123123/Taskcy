@@ -1,6 +1,6 @@
 <template>
   <div class="login-container animate-fade-in">
-    <h2 class="page-title slide-down">Sign In</h2>
+    <PageHeader />
 
     <div class="content-wrapper">
       <h3 class="welcome-title cascade-1">Welcome Back</h3>
@@ -45,6 +45,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import PageHeader from "../medical/PageHeader.vue";
 const router = useRouter();
 
 const pushTo = (page) => {
@@ -61,7 +62,6 @@ const pushTo = (page) => {
   box-sizing: border-box;
   position: relative;
   min-height: 100vh;
-  padding: 20px;
 }
 
 .page-title {
@@ -76,7 +76,7 @@ const pushTo = (page) => {
 }
 
 .content-wrapper {
-  margin-top: 100px;
+  /* margin-top: 100px; */
 }
 
 .welcome-title {
