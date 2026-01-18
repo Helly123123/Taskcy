@@ -3,14 +3,7 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
 const pushTo = (pageName) => {
-  router.push({
-    name: pageName,
-    query: { step: "1" },
-  });
+  localStorage.clear();
 };
 </script>

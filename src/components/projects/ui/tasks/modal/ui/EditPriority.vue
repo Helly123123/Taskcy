@@ -1,89 +1,9 @@
 <template>
   <div class="mobile-app-container animate-fade-in">
-    <CreateLoading
-      :text="'Saving Task...'"
-      :loading="loading"
-      :color="formData.project.color"
-    />
+    <CreateLoading :text="'Saving priority...'" :loading="loading" />
 
     <div class="task-card" :class="{ 'blur-content': loading }">
-      <PageHeader />
-
       <div class="form-content">
-        <div class="form-group">
-          <label>Task Name</label>
-          <input
-            type="text"
-            class="custom-input"
-            v-model="formData.name"
-            placeholder="Enter task name"
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Project</label>
-          <Select
-            v-model="formData.project"
-            :options="projects"
-            optionLabel="name"
-            class="prime-overrides"
-            appendTo="body"
-          >
-            <template #value="slotProps">
-              <div v-if="slotProps.value" class="project-pill">
-                <span
-                  class="dot"
-                  :style="{ background: slotProps.value.color }"
-                ></span>
-                <span>{{ slotProps.value.name }}</span>
-              </div>
-            </template>
-            <template #option="slotProps">
-              <div class="project-pill">
-                <span
-                  class="dot"
-                  :style="{ background: slotProps.option.color }"
-                ></span>
-                <span>{{ slotProps.option.name }}</span>
-              </div>
-            </template>
-          </Select>
-        </div>
-
-        <div class="form-group">
-          <label>Date</label>
-          <DatePicker
-            v-model="formData.date"
-            dateFormat="MM d, yy"
-            showIcon
-            iconDisplay="input"
-            class="prime-overrides"
-          />
-        </div>
-
-        <div class="time-grid">
-          <div class="form-group">
-            <label>Start Time</label>
-            <DatePicker
-              v-model="formData.startTime"
-              timeOnly
-              hourFormat="12"
-              placeholder="09:30 am"
-              class="prime-overrides"
-            />
-          </div>
-          <div class="form-group">
-            <label>End Time</label>
-            <DatePicker
-              v-model="formData.endTime"
-              timeOnly
-              hourFormat="12"
-              placeholder="03:30 pm"
-              class="prime-overrides"
-            />
-          </div>
-        </div>
-
         <div class="form-group">
           <label>Priority</label>
           <Select
@@ -122,20 +42,6 @@
             </template>
           </Select>
         </div>
-
-        <div class="form-group">
-          <label>Board</label>
-          <div class="board-selector">
-            <button
-              v-for="opt in ['not_started', 'in_progress', 'сompleted']"
-              :key="opt"
-              :class="['board-btn', { active: formData.boardType === opt }]"
-              @click="formData.boardType = opt"
-            >
-              {{ opt }}
-            </button>
-          </div>
-        </div>
       </div>
 
       <footer class="footer">
@@ -151,8 +57,6 @@
 import { computed, reactive, ref } from "vue";
 import CreateLoading from "@/components/medical/loading/CreateLoading.vue";
 import Select from "primevue/select";
-import DatePicker from "primevue/datepicker";
-import PageHeader from "@/components/medical/PageHeader.vue";
 import { useProjectsStore } from "@/stores/projectsStore";
 import { useRouter } from "vue-router";
 
@@ -160,18 +64,18 @@ const projectsStore = useProjectsStore();
 const router = useRouter();
 const loading = ref(false);
 
+const props = defineProps({
+  task: {
+    type: Object,
+  },
+});
+
 const projects = computed(() => projectsStore.projectsWithInfo);
 
 console.log(projects);
 
 const formData = reactive({
-  name: "",
-  project: projects.value[0],
-  priority: "low",
-  date: new Date(),
-  startTime: new Date(),
-  endTime: new Date(new Date().getTime() + 60 * 60 * 1000),
-  boardType: "not_started",
+  priority: props.task.priority,
 });
 
 const priorityOptions = [
@@ -189,18 +93,24 @@ const pushTo = (pageName, id, type) => {
 };
 
 const saveTask = async () => {
+  if (!props.task?.id || !props.task?.projectId) {
+    console.error("Missing task ID or Project ID", props.task);
+    return;
+  }
+
   loading.value = true;
   await new Promise((resolve) => setTimeout(resolve, 800));
 
   try {
-    const success = projectsStore.addTaskToProject(
-      formData.project.name,
-      formData,
+    const success = projectsStore.updateTaskPriority(
+      props.task.projectId,
+      props.task.id,
+      formData.priority,
     );
 
     if (success) {
+      //   pushTo("Tasks", props.task.projectId, formData.boardType);
       console.log("Task updated successfully");
-      pushTo("Tasks", formData.project.id, formData.boardType);
     } else {
       console.error("Task not found in store");
     }
@@ -218,7 +128,7 @@ const saveTask = async () => {
 .task-card {
   width: 100%;
   max-width: 420px;
-  margin-bottom: 100px;
+
   height: 100%;
   display: flex;
   flex-direction: column;

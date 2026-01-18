@@ -5,6 +5,35 @@ export const useProjectsStore = defineStore("accountStore", {
     projects: [],
   }),
   getters: {
+    findTasksByDateAndStatus: (state) => {
+      return (status, dateString) => {
+        // 1. Собираем все задачи и добавляем имя проекта
+        const allTasks = state.projects.flatMap((project) =>
+          (project.tasks || []).map((task) => ({
+            ...task,
+            projectName: project.name,
+          })),
+        );
+
+        return allTasks.filter((task) => {
+          // 2. Сравнение дат
+          // Отрезаем всё после 'T', чтобы получить только "YYYY-MM-DD"
+          const taskDateOnly = task.date ? task.date.split("T")[0] : null;
+
+          // На всякий случай проверяем и передаваемую дату (если там вдруг тоже ISO)
+          const targetDateOnly = dateString ? dateString.split("T")[0] : null;
+
+          const dateMatch = taskDateOnly === targetDateOnly;
+
+          // 3. Сравнение статуса
+          // Добавляем проверку на 'All', чтобы показывать все задачи за день
+          const statusMatch = status === "all" || task.boardType === status;
+
+          return dateMatch && statusMatch;
+        });
+      };
+    },
+
     projectsWithInfo: (state) => {
       return state.projects.map((project) => {
         const total = project.tasks?.length || 0;
@@ -51,7 +80,7 @@ export const useProjectsStore = defineStore("accountStore", {
         ...project,
         info: [
           {
-            type: "completed",
+            type: "сompleted",
             title: "Completed",
             count: count("сompleted"),
           },
@@ -69,6 +98,87 @@ export const useProjectsStore = defineStore("accountStore", {
       };
     },
 
+    updateTaskStatus(projectId, taskId, status) {
+      // Ищем проект
+      const project = this.projects.find(
+        (p) => String(p.id) === String(projectId),
+      );
+
+      if (project) {
+        // Ищем задачу внутри проекта
+        const task = project.tasks.find((t) => String(t.id) === String(taskId));
+
+        if (task) {
+          // Обновляем только нужные поля
+          task.boardType = status;
+
+          // Обработка даты (сохраняем как ISO строку)
+
+          return true;
+        }
+      }
+      return false;
+    },
+
+    updateTaskPriority(projectId, taskId, priority) {
+      // Ищем проект
+      const project = this.projects.find(
+        (p) => String(p.id) === String(projectId),
+      );
+
+      if (project) {
+        // Ищем задачу внутри проекта
+        const task = project.tasks.find((t) => String(t.id) === String(taskId));
+
+        if (task) {
+          // Обновляем только нужные поля
+          task.priority = priority;
+
+          // Обработка даты (сохраняем как ISO строку)
+
+          return true;
+        }
+      }
+      return false;
+    },
+
+    updateTaskFields(projectId, taskId, updatedFields) {
+      // Ищем проект
+      const project = this.projects.find(
+        (p) => String(p.id) === String(projectId),
+      );
+
+      if (project) {
+        // Ищем задачу внутри проекта
+        const task = project.tasks.find((t) => String(t.id) === String(taskId));
+
+        if (task) {
+          // Обновляем только нужные поля
+          task.name = updatedFields.name;
+
+          // Обработка даты (сохраняем как ISO строку)
+          task.date =
+            updatedFields.date instanceof Date
+              ? updatedFields.date.toISOString()
+              : updatedFields.date;
+
+          // Сохраняем время (DatePicker возвращает Date объект, берем его целиком или ISO)
+          task.startTime =
+            updatedFields.startTime instanceof Date
+              ? updatedFields.startTime.toISOString()
+              : updatedFields.startTime;
+
+          task.endTime =
+            updatedFields.endTime instanceof Date
+              ? updatedFields.endTime.toISOString()
+              : updatedFields.endTime;
+
+          return true;
+        }
+      }
+      return false;
+    },
+
     addTaskToProject(projectName, taskData) {
       const projectIndex = this.projects.findIndex(
         (p) => p.name === projectName,
@@ -79,6 +189,7 @@ export const useProjectsStore = defineStore("accountStore", {
 
         const newTask = {
           id: this.projects[projectIndex].tasks.length + 1,
+          projectId: project.id,
           ...otherData,
 
           date: date instanceof Date ? date.toISOString() : date,

@@ -103,6 +103,8 @@ const getTypeHeader = (pageName) => {
       return "Add Tasks";
     case "Tasks":
       return "Tasks";
+    case "TodayTasks":
+      return "Today Task";
   }
 };
 </script>

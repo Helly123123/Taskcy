@@ -37,7 +37,7 @@ const loading = ref(true);
 const getInfoById = async () => {
   loading.value = true;
 
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   projectInfo.value = projectsStore.getInfoProjectById(route.query.id);
 

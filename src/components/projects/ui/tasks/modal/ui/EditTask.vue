@@ -1,14 +1,7 @@
 <template>
   <div class="mobile-app-container animate-fade-in">
-    <CreateLoading
-      :text="'Saving Task...'"
-      :loading="loading"
-      :color="formData.project.color"
-    />
-
+    <CreateLoading :text="'Saving tasks...'" :loading="loading" />
     <div class="task-card" :class="{ 'blur-content': loading }">
-      <PageHeader />
-
       <div class="form-content">
         <div class="form-group">
           <label>Task Name</label>
@@ -18,36 +11,6 @@
             v-model="formData.name"
             placeholder="Enter task name"
           />
-        </div>
-
-        <div class="form-group">
-          <label>Project</label>
-          <Select
-            v-model="formData.project"
-            :options="projects"
-            optionLabel="name"
-            class="prime-overrides"
-            appendTo="body"
-          >
-            <template #value="slotProps">
-              <div v-if="slotProps.value" class="project-pill">
-                <span
-                  class="dot"
-                  :style="{ background: slotProps.value.color }"
-                ></span>
-                <span>{{ slotProps.value.name }}</span>
-              </div>
-            </template>
-            <template #option="slotProps">
-              <div class="project-pill">
-                <span
-                  class="dot"
-                  :style="{ background: slotProps.option.color }"
-                ></span>
-                <span>{{ slotProps.option.name }}</span>
-              </div>
-            </template>
-          </Select>
         </div>
 
         <div class="form-group">
@@ -83,59 +46,6 @@
             />
           </div>
         </div>
-
-        <div class="form-group">
-          <label>Priority</label>
-          <Select
-            v-model="formData.priority"
-            :options="priorityOptions"
-            optionLabel="text"
-            optionValue="value"
-            placeholder="Select Priority"
-            class="prime-overrides"
-          >
-            <template #value="slotProps">
-              <div v-if="slotProps.value" class="project-pill">
-                <span
-                  class="dot"
-                  :style="{
-                    background: priorityOptions.find(
-                      (o) => o.value === slotProps.value,
-                    )?.color,
-                  }"
-                ></span>
-                <span>{{
-                  priorityOptions.find((o) => o.value === slotProps.value)?.text
-                }}</span>
-              </div>
-              <span v-else>{{ slotProps.placeholder }}</span>
-            </template>
-
-            <template #option="slotProps">
-              <div class="project-pill">
-                <span
-                  class="dot"
-                  :style="{ background: slotProps.option.color }"
-                ></span>
-                <span>{{ slotProps.option.text }}</span>
-              </div>
-            </template>
-          </Select>
-        </div>
-
-        <div class="form-group">
-          <label>Board</label>
-          <div class="board-selector">
-            <button
-              v-for="opt in ['not_started', 'in_progress', 'сompleted']"
-              :key="opt"
-              :class="['board-btn', { active: formData.boardType === opt }]"
-              @click="formData.boardType = opt"
-            >
-              {{ opt }}
-            </button>
-          </div>
-        </div>
       </div>
 
       <footer class="footer">
@@ -148,11 +58,9 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { reactive, ref, onMounted, watch } from "vue"; // добавили watch и onMounted
 import CreateLoading from "@/components/medical/loading/CreateLoading.vue";
-import Select from "primevue/select";
 import DatePicker from "primevue/datepicker";
-import PageHeader from "@/components/medical/PageHeader.vue";
 import { useProjectsStore } from "@/stores/projectsStore";
 import { useRouter } from "vue-router";
 
@@ -160,26 +68,47 @@ const projectsStore = useProjectsStore();
 const router = useRouter();
 const loading = ref(false);
 
-const projects = computed(() => projectsStore.projectsWithInfo);
+const props = defineProps({
+  task: {
+    type: Object,
+  },
+});
 
-console.log(projects);
-
+// Инициализируем пустыми данными
 const formData = reactive({
   name: "",
-  project: projects.value[0],
-  priority: "low",
+  project: "",
   date: new Date(),
-  startTime: new Date(),
-  endTime: new Date(new Date().getTime() + 60 * 60 * 1000),
+  startTime: null,
+  endTime: null,
   boardType: "not_started",
 });
 
-const priorityOptions = [
-  { text: "Low", value: "low", color: "#4CAF50" },
-  { text: "Medium", value: "medium", color: "#2196F3" },
-  { text: "High", value: "high", color: "#FF9800" },
-  { text: "Critical", value: "critical", color: "#F44336" },
-];
+// Функция для заполнения формы данными из пропса
+const fillForm = () => {
+  if (props.task) {
+    formData.name = props.task.name || "";
+    formData.boardType = props.task.boardType || "not_started";
+
+    // Обработка даты (превращаем строку из БД в объект JS Date для DatePicker)
+    if (props.task.date) {
+      formData.date = new Date(props.task.date);
+    }
+
+    // Если startTime/endTime строки, их тоже нужно превратить в Date объекты
+    formData.startTime = props.task.startTime
+      ? new Date(props.task.startTime)
+      : null;
+    formData.endTime = props.task.endTime ? new Date(props.task.endTime) : null;
+
+    formData.projectId = props.task.projectId;
+  }
+};
+
+// Вызываем при загрузке
+onMounted(() => {
+  fillForm();
+});
 
 const pushTo = (pageName, id, type) => {
   router.push({
@@ -190,25 +119,29 @@ const pushTo = (pageName, id, type) => {
 
 const saveTask = async () => {
   loading.value = true;
-  await new Promise((resolve) => setTimeout(resolve, 800));
 
-  try {
-    const success = projectsStore.addTaskToProject(
-      formData.project.name,
-      formData,
-    );
+  // Небольшая задержка для красоты (как у тебя было)
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    if (success) {
-      console.log("Task updated successfully");
-      pushTo("Tasks", formData.project.id, formData.boardType);
-    } else {
-      console.error("Task not found in store");
-    }
-  } catch (e) {
-    console.error("Error updating task:", e);
-  } finally {
-    loading.value = false;
+  if (props.task?.id) {
+    console.log(props.task?.id);
+    // РЕДАКТИРОВАНИЕ
+    projectsStore.updateTaskFields(props.task.projectId, props.task.id, {
+      name: formData.name,
+      date: formData.date,
+      startTime: formData.startTime,
+      endTime: formData.endTime,
+    });
   }
+
+  loading.value = false;
+
+  // Редирект обратно
+  pushTo(
+    "Tasks",
+    formData.project?.id || props.task?.projectId,
+    formData.boardType,
+  );
 };
 </script>
 
@@ -218,7 +151,7 @@ const saveTask = async () => {
 .task-card {
   width: 100%;
   max-width: 420px;
-  margin-bottom: 100px;
+
   height: 100%;
   display: flex;
   flex-direction: column;

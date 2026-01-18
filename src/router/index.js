@@ -9,6 +9,7 @@ import AddProject from "@/views/adding/AddProject.vue";
 import AddTasks from "@/views/adding/AddTasks.vue";
 import ProjectInfo from "@/components/projects/ProjectInfo.vue";
 import Tasks from "@/views/projects/Tasks.vue";
+import TodayTasks from "@/views/home/TodayTasks.vue";
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/today-tasks",
+    name: "TodayTasks",
+    component: TodayTasks,
   },
   {
     path: "/auth/sign-in",
@@ -55,6 +61,11 @@ const routes = [
     path: "/add/tasks",
     name: "AddTasks",
     component: AddTasks,
+  },
+  {
+    path: "/test",
+    name: "Test",
+    component: test,
   },
 ];
 

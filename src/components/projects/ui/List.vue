@@ -1,7 +1,12 @@
 <template>
   <div class="scrollable-content">
     <div class="list-stack">
-      <div v-for="project in projects" :key="project.id" class="project-card">
+      <div
+        v-if="projects.length > 0"
+        v-for="project in projects"
+        :key="project.id"
+        class="project-card"
+      >
         <div @click="pushTo('ProjectInfo', project.id)" class="card-top">
           <div class="info">
             <h3 class="name">{{ project.name }} {{ project.emoji }}</h3>
@@ -32,6 +37,7 @@
           </div>
         </div>
       </div>
+      <NoData :type="'projects'" />
     </div>
   </div>
 </template>
@@ -40,6 +46,8 @@
 import { computed } from "vue";
 import { useProjectsStore } from "@/stores/projectsStore";
 import { useRouter } from "vue-router";
+
+import NoData from "@/components/medical/LackInformation/NoData.vue";
 
 const projectStore = useProjectsStore();
 const router = useRouter();
