@@ -31,93 +31,6 @@
           </li>
 
           <li
-            @click="pushTo('TodayTasks')"
-            :class="{ active: getPageName === 'TodayTasks' }"
-            class="nav-item"
-          >
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 17 19"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.827209 6.92013H15.6805"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11.9517 10.1748H11.9594"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M8.25384 10.1748H8.26156"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.54825 10.1748H4.55597"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11.9517 13.4135H11.9594"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M8.25384 13.4135H8.26156"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.54825 13.4135H4.55597"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M11.6198 0.75V3.49232"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.88792 0.75V3.49232"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M11.7819 2.06592H4.7258C2.27856 2.06592 0.75 3.4292 0.75 5.93511V13.4765C0.75 16.0218 2.27856 17.4166 4.7258 17.4166H11.7742C14.2291 17.4166 15.75 16.0454 15.75 13.5395V5.93511C15.7577 3.4292 14.2368 2.06592 11.7819 2.06592Z"
-                stroke="#848A94"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </li>
-
-          <li
             @click="pushTo('Project')"
             :class="{ active: getPageName === 'Project' }"
             class="nav-item"
@@ -165,8 +78,91 @@
             </button>
           </li>
 
-          <li class="nav-item">
-            <img src="/navigate/chat.svg" alt="Chat" />
+          <li
+            @click="pushTo('TodayTasks')"
+            :class="{ active: getPageName === 'TodayTasks' }"
+            class="nav-item"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 17 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.827209 6.92013H15.6805"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.9517 10.1748H11.9594"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M8.25384 10.1748H8.26156"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.54825 10.1748H4.55597"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.9517 13.4135H11.9594"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M8.25384 13.4135H8.26156"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.54825 13.4135H4.55597"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.6198 0.75V3.49232"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.88792 0.75V3.49232"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.7819 2.06592H4.7258C2.27856 2.06592 0.75 3.4292 0.75 5.93511V13.4765C0.75 16.0218 2.27856 17.4166 4.7258 17.4166H11.7742C14.2291 17.4166 15.75 16.0454 15.75 13.5395V5.93511C15.7577 3.4292 14.2368 2.06592 11.7819 2.06592Z"
+                stroke="#848A94"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </li>
           <li class="nav-item">
             <img src="/navigate/profile.svg" alt="Profile" />
@@ -188,13 +184,10 @@ const route = useRoute();
 const getPageName = computed(() => route.name);
 const isOpenOptionsModal = ref(false);
 
-// --- ЛОГИКА СКРЫТИЯ САЙДБАРА ПРИ КЛАВИАТУРЕ ---
 const isKeyboardVisible = ref(false);
 let initialHeight = window.innerHeight;
 
 const handleResize = () => {
-  // Если текущая высота окна стала значительно меньше (на 150px+) начальной,
-  // значит открылась клавиатура.
   isKeyboardVisible.value = window.innerHeight < initialHeight - 150;
 };
 
@@ -205,7 +198,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
 });
-// --------------------------------------------
 
 const pushTo = (pageName) => {
   router.push({ name: pageName });
@@ -216,16 +208,11 @@ const openModal = () => (isOpenOptionsModal.value = true);
 
 <style scoped>
 .cont {
-  position: fixed;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 100%;
-  max-width: 400px;
-  z-index: 100;
+  flex-shrink: 0;
+  background: #fff;
 }
 
-/* Анимация плавного появления и исчезновения */
 .fade-enter-active,
 .fade-leave-active {
   transition:
@@ -236,11 +223,10 @@ const openModal = () => (isOpenOptionsModal.value = true);
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  transform: translate(-50%, 20px);
 }
 
 .navigate {
-  padding: 10px 20px;
+  padding: 20px 20px 40px 20px;
   box-shadow: 0 0 9px 0 rgba(140, 168, 216, 0.05);
   background: #fff;
 }
@@ -251,7 +237,7 @@ const openModal = () => (isOpenOptionsModal.value = true);
   justify-content: space-between;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 10px 20px;
 }
 
 .nav-item {

@@ -7,7 +7,7 @@
   <div class="scrollable-content">
     <div v-auto-animate class="list-stack">
       <div
-        v-if="tasks.length > 0"
+        v-if="tasks?.length > 0"
         v-for="task in tasks"
         :key="task.id"
         class="project-card"

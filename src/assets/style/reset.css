@@ -8,7 +8,8 @@
 }
 
 html,
-body {
+body,
+#app {
   height: 100%;
   width: 100%;
   font-size: 100%; /* Стандартный размер шрифта */
@@ -16,8 +17,8 @@ body {
   line-height: 1;
   padding: 0 !important;
   margin: 0 !important;
-  /* 3. Запрет горизонтального прокрута */
-  overflow-x: hidden;
+
+  overflow: hidden;
   background-color: white !important;
 }
 

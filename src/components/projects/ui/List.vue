@@ -1,6 +1,6 @@
 <template>
   <div class="scrollable-content">
-    <div class="list-stack">
+    <div :class="['list-container', { 'grid-mode': isGrid }]">
       <div
         v-if="projects.length > 0"
         v-for="project in projects"
@@ -37,73 +37,85 @@
           </div>
         </div>
       </div>
-      <NoData :type="'projects'" />
+      <NoData v-else :type="'projects'" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, defineProps } from "vue";
 import { useProjectsStore } from "@/stores/projectsStore";
 import { useRouter } from "vue-router";
-
 import NoData from "@/components/medical/LackInformation/NoData.vue";
+
+const props = defineProps({
+  isGrid: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const projectStore = useProjectsStore();
 const router = useRouter();
-
-// Используем геттер, который мы создали в Pinia
 const projects = computed(() => projectStore.projectsWithInfo);
 
-console.log(projects.value);
-// Функция для расчета процента (чтобы не делить на ноль)
 const calculateProgress = (completed, total) => {
   if (total === 0) return 0;
   return Math.round((completed / total) * 100);
 };
 
 const pushTo = (pageName, id) => {
-  router.push({
-    name: pageName,
-    query: { id: id },
-  });
+  router.push({ name: pageName, query: { id: id } });
 };
 </script>
 
 <style scoped>
 .scrollable-content {
-  flex: 1; /* Занимает всё оставшееся пространство */
-  overflow-y: auto; /* Включает внутренний скролл */
-  padding-top: 12px;
-  padding-bottom: 120px;
-
-  /* Скрытие полосы прокрутки для чистого вида */
-  scrollbar-width: none; /* Firefox */
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+  scrollbar-width: none;
 }
-
 .scrollable-content::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
-.list-stack {
-  display: flex;
-  flex-direction: column;
+/* Базовый контейнер (режим списка) */
+.list-container {
+  display: grid;
+  grid-template-columns: 1fr; /* В колонку по умолчанию */
   gap: 16px;
+  transition: all 0.3s ease;
 }
 
-/* Карточки (без изменений) */
+/* Режим сетки (2 в ряд) */
+.list-container.grid-mode {
+  grid-template-columns: 1fr 1fr; /* Две колонки */
+}
+
 .project-card {
   padding: 20px;
   border: 1px solid #f1f5f9;
   border-radius: 28px;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Адаптация содержимого для узких карточек в сетке */
+.grid-mode .card-top {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grid-mode .name {
+  font-size: 13px;
 }
 
 .card-top {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 18px;
 }
 
@@ -111,15 +123,12 @@ const pushTo = (pageName, id) => {
   margin: 0;
   font-weight: 500;
   font-size: 14px;
-  line-height: 100%;
   color: #002055;
 }
-
 .cat {
   margin: 4px 0 0;
   font-weight: 400;
   font-size: 13px;
-  line-height: 92%;
   color: #848a94;
 }
 
@@ -129,6 +138,7 @@ const pushTo = (pageName, id) => {
   border-radius: 10px;
   font-size: 11px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .card-bottom {
@@ -140,14 +150,12 @@ const pushTo = (pageName, id) => {
 .user-stack {
   display: flex;
 }
-
 .user-stack img {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid #fff;
   margin-right: -8px;
-  object-fit: cover;
 }
 
 .progress-track {
@@ -157,8 +165,8 @@ const pushTo = (pageName, id) => {
   border-radius: 10px;
   overflow: hidden;
 }
-
 .progress-fill {
   height: 100%;
+  transition: width 0.3s ease;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <main class="mobile-container">
-    <RouterView />
+    <div class="content-area">
+      <RouterView />
+    </div>
+
     <Nav />
   </main>
 </template>
@@ -13,47 +16,34 @@ import Nav from "./components/navigate/Nav.vue";
 .mobile-container {
   display: flex;
   flex-direction: column;
-  /* align-items: center;  <-- УБЕРИ ЭТО, оно мешает растягиванию */
-  min-height: 100vh;
+
+  /* Гарантируем высоту на весь экран мобильного браузера */
+  height: 100vh;
+  height: 100dvh;
+
   width: 100%;
-  max-width: 768px; /* Ограничение для планшетов */
+  max-width: 768px;
   margin: 0 auto;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  padding: 0px 40px 0px 40px;
-  box-sizing: border-box;
+
+  /* Контейнер — это жесткая рамка, он сам не скроллится */
+  overflow: hidden;
+  position: relative;
 }
 
-.desktop-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
+.content-area {
+  flex: 1;
   width: 100%;
-  height: 100%;
-  background: #1a1a1a;
-  color: white;
-  z-index: 9999;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 0 40px;
+
+  /* Плавный скролл для iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
-.message-box {
-  padding: 2rem;
-  border: 2px border-radius 12px;
-  background: #2a2a2a;
+.content-area::-webkit-scrollbar {
+  display: none;
 }
-
-/* Логика переключения через Media Queries */
-/* @media (min-width: 769px) {
-  .desktop-overlay {
-    display: flex;
-  }
-
-  .mobile-container {
-    display: none;
-  }
-} */
 </style>

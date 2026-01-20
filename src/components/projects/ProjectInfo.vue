@@ -50,13 +50,11 @@ onMounted(getInfoById);
 
 <style scoped>
 .task-status-container {
-  min-height: 100vh;
   width: 100%;
+  height: 100%;
   position: relative;
-  margin-bottom: 60px;
 }
 
-/* Центрирование лоадера строго посередине */
 .loader-overlay {
   display: flex;
   flex-direction: column;
@@ -70,7 +68,6 @@ onMounted(getInfoById);
   z-index: 10;
 }
 
-/* Стили современного лоадера */
 .modern-loader {
   position: relative;
   width: 80px;
@@ -110,7 +107,6 @@ onMounted(getInfoById);
   opacity: 0.3;
 }
 
-/* Текст под лоадером */
 .loading-text {
   margin-top: 20px;
   font-weight: 500;
@@ -121,7 +117,6 @@ onMounted(getInfoById);
   animation: pulse-text 1.5s ease-in-out infinite;
 }
 
-/* Анимации */
 @keyframes ripple {
   0% {
     transform: scale(0.5);
@@ -152,7 +147,6 @@ onMounted(getInfoById);
   }
 }
 
-/* Плавный переход контента */
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);

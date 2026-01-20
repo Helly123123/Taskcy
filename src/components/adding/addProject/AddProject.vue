@@ -153,12 +153,8 @@ const addProject = async () => {
 .create-project-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
   position: relative;
   background-color: #ffffff;
-  overflow-x: hidden;
-  margin-bottom: 50px;
 }
 
 .content-wrapper {

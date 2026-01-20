@@ -1,69 +1,39 @@
 <template>
   <div class="dashboard">
-    <!-- <header class="header">
-      <div class="user-info">
-        <img
-          src="https://i.pravatar.cc/100?u=livia"
-          alt="Avatar"
-          class="avatar"
-        />
-        <div class="user-text">
-          <span class="greeting">Hello!</span>
-          <h1 class="user-name">Livia Vaccaro</h1>
-        </div>
-      </div>
-      <div class="notification">
-        <div class="bell-icon">🔔</div>
-        <div class="dot"></div>
-      </div>
-    </header> -->
+    <PageHeader :subtitle="'home'" />
 
-    <div class="hero-card">
-      <div class="hero-content">
-        <p>Your today's task<br />almost done!</p>
-        <button @click="pushTo" class="view-task-btn">View Task</button>
-      </div>
-      <div class="hero-progress">
-        <svg viewBox="0 0 36 36" class="circular-chart">
-          <path
-            class="circle-bg"
-            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-          />
-          <path
-            class="circle"
-            stroke-dasharray="85, 100"
-            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-          />
-          <text x="18" y="20.35" class="percentage">85%</text>
-        </svg>
-      </div>
+    <div>
+      <h2 class="title">
+        Let’s make a <br />
+        habits together 🙌
+      </h2>
     </div>
 
     <section class="section">
-      <div class="section-header">
-        <h2>In Progress</h2>
-        <span class="badge count-badge">6</span>
-      </div>
       <div class="horizontal-scroll">
-        <ProjectCard
+        <ProjectSlider
           category="Office Project"
           title="Grocery shopping app design"
-          :progress="60"
+          :progress="70"
           color="#3b82f6"
         />
         <ProjectCard
           category="Personal Project"
           title="Uber Eats redesign challenge"
-          :progress="45"
+          :progress="50"
           color="#f97316"
         />
       </div>
     </section>
 
     <section class="section">
-      <div class="section-header underline">
-        <h2>Task Groups</h2>
-        <span class="badge">4</span>
+      <HeroCard />
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Task Groups</h2>
+        <span class="badge gray-badge">4</span>
       </div>
       <div class="task-groups-list">
         <TaskGroupItem
@@ -94,154 +64,75 @@
 
 <script setup>
 import ProjectCard from "./ui/home/ProjectCard.vue";
+import ProjectSlider from "./ui/home/ProjectSlider.vue";
 import TaskGroupItem from "./ui/home/TaskGroupItem.vue";
-const pushTo = (pageName) => {
-  localStorage.clear();
-};
+import PageHeader from "../medical/PageHeader.vue";
+import HeroCard from "./ui/home/HeroCard.vue";
 </script>
 
 <style>
-/* Глобальные стили для примера */
-body {
-  margin: 0;
-  background-color: #f8faff;
-  font-family: "Inter", sans-serif;
-}
-
 .dashboard {
-  padding: 24px;
-  max-width: 450px;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Header */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-}
-.greeting {
-  color: #888;
-  font-size: 14px;
-}
-.user-name {
-  font-size: 18px;
-  margin: 0;
-  font-weight: 700;
-}
-.notification {
-  position: relative;
-  font-size: 20px;
-}
-.dot {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 8px;
-  height: 8px;
-  background: #5a4af4;
-  border-radius: 50%;
-  border: 2px solid white;
-}
-
-/* Hero Card */
-.hero-card {
-  border-radius: 24px;
-  padding: 25px;
-  color: white;
-  box-shadow: 0 5px 10px 0 rgba(49, 123, 250, 0.08);
-  background: #756ef3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+.title {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 144%;
+  color: #002055;
   margin-bottom: 30px;
 }
-.hero-content p {
-  font-weight: 400;
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 15px;
-}
-.view-task-btn {
-  background: #eee9ff;
-  color: #5a4af4;
-  border: none;
-  font-size: 14px;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
 
-/* Circular Chart */
-.circular-chart {
-  width: 85px;
-  height: 85px;
-}
-.circle-bg {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.2);
-  stroke-width: 3;
-}
-.circle {
-  fill: none;
-  stroke: white;
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-.percentage {
-  fill: white;
-  font-size: 8px;
-  font-weight: bold;
-  text-anchor: middle;
-}
-
-/* Sections */
 .section-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
 }
-.section-header h2 {
-  font-size: 20px;
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 800;
   margin: 0;
 }
 .badge {
-  background: #eee;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 12px;
-  color: #666;
+  padding: 0.15rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
-.count-badge {
-  background: #e0e7ff;
+.blue-badge {
+  background: #eef2ff;
   color: #5a4af4;
 }
-.underline h2 {
-  border-bottom: 3px solid #5a4af4;
-  padding-bottom: 4px;
+.gray-badge {
+  background: #f3f4f6;
+  color: #9ca3af;
 }
 
+/* Horizontal Scroll */
 .horizontal-scroll {
   display: flex;
-  gap: 16px;
+  gap: 1rem;
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
+  margin: 0 -1.25rem; /* Вылет за края падинга */
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
 }
 .horizontal-scroll::-webkit-scrollbar {
   display: none;
+}
+
+/* Desktop adjustment */
+@media (min-width: 500px) {
+  .horizontal-scroll {
+    margin: 0;
+    padding: 0;
+  }
 }
 </style>

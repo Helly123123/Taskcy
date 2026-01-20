@@ -217,8 +217,6 @@ const saveTask = async () => {
 
 .task-card {
   width: 100%;
-  max-width: 420px;
-  margin-bottom: 100px;
   height: 100%;
   display: flex;
   flex-direction: column;

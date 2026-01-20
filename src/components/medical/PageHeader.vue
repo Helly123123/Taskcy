@@ -1,6 +1,10 @@
 <template>
   <header class="top-bar">
-    <button @click="pushTo('back')" class="icon-btn">
+    <button
+      v-if="route.name != 'Home'"
+      @click="pushTo('back')"
+      class="icon-btn"
+    >
       <svg
         width="8"
         height="14"
@@ -17,6 +21,7 @@
         />
       </svg>
     </button>
+    <div class="icon-btn-fantom" v-else></div>
     <div v-if="projectName">
       <h1 class="page-title">{{ projectName }}</h1>
       <span class="subtitle">{{ getTypeSubtitle(subtitle) }}</span>
@@ -75,7 +80,7 @@ const pushTo = (page) => {
 };
 
 const gettingDisplayPermission = computed(
-  () => route.name === "Project" || route.name === "ProjectInfo",
+  () => route.name === "Prsoject" || route.name === "ProjectInfos",
 );
 
 const getTypeSubtitle = (pageName) => {
@@ -86,6 +91,8 @@ const getTypeSubtitle = (pageName) => {
       return "In Progress";
     case "completed":
       return "Completed";
+    case "home":
+      return "Home";
   }
 };
 
@@ -105,6 +112,11 @@ const getTypeHeader = (pageName) => {
       return "Tasks";
     case "TodayTasks":
       return "Today Task";
+    case "Home":
+      return new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        day: "numeric",
+      });
   }
 };
 </script>
@@ -131,6 +143,7 @@ const getTypeHeader = (pageName) => {
   font-size: 12px;
   line-height: 100%;
   color: #848a94;
+  text-align: center;
 }
 
 .icon-btn {
